@@ -13,10 +13,7 @@ public class NodoVP<T> {
 		this.info = info; 
 		this.childList =  new ArrayList<NodoVP<T>>();
 		this.parent=parent;
-		
-		
 	}
-	
 	
 	public int getLevel() {
 		return level;
@@ -28,7 +25,7 @@ public class NodoVP<T> {
 	public NodoVP<T> getParent() {
 		return parent;
 	}
-	private ArrayList<NodoVP<T>> getChildList() {
+	public ArrayList<NodoVP<T>> getChildList() {
 		return childList;
 	}
 	
@@ -36,6 +33,20 @@ public class NodoVP<T> {
 		this.info = info;
 	}
 
+	public void setParent(NodoVP<T> parent) {
+		this.parent = parent;
+	}
+	
+	public void addChild(NodoVP<T> child, NodoVP<T> parent, T info) {
+		//TODO osserva che il costruttore già accetta info come parametro, fixare.
+		child.setInfo(info);
+		child.setLevel(this.getLevel() + 1);
+		this.childList.add(child);
+	}
+	
+	public void setLevel(int level) {
+		this.level = level;
+	}
 
 	@Override
 	public String toString() {
