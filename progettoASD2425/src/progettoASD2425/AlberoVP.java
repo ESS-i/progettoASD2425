@@ -83,6 +83,18 @@ public class AlberoVP<T>{
 	public void setNodeInfo(NodoVP<T> n , T info) {
 		n.setInfo(info);
 	}
+	
+	//visita in ampiezza
+	public ArrayList<NodoVP<T>> visitaBF(){
+		ArrayList<NodoVP<T>> listaVisitati=new ArrayList<NodoVP<T>>();
+		for (NodoVP<T> nodoVP : nodesList) {
+			for (NodoVP<T> n : nodoVP.getChildList()) {
+				listaVisitati.add(n);
+			}
+		}
+		return listaVisitati;
+		
+	}
 		
 	
 	
