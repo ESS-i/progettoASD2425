@@ -23,19 +23,38 @@ public class AlberoVP<T> {
 	public NodoVP<T> setRootInEmptyTree(NodoVP<T> root) {
 		this.root = root;
 		this.root.setParent(null);
+		nodesList.add(root);
+		parentList.add(null);
 		height = 0;
 		return root;
 	}
 
 	public NodoVP<T> setRootNotEmpty(NodoVP<T> newRoot) {
+
+		// Cambio i riferimenti al padre nella vecchia radice
 		this.root.setParent(newRoot);
 		this.root.setLevel(1);
+
+		// Rimuovo il padre null nella lista dei parent e lo rimpiazzo con la nuova
+		// radice, padre della vecchia
+		parentList.removeFirst();
+		parentList.addFirst(newRoot);
+
+		// Metto come unico figlio della nuova radice la vecchia radice
+		newRoot.addChild(root);
+
+		// Aggiorno il puntatore al nodo radice con la nuova radice
 		this.root = newRoot;
 		this.root.setParent(null);
+
+		// Aggiorno la lista dei nodi parent
+		nodesList.addFirst(newRoot);
+		parentList.addFirst(null);
+
 		this.root.setLevel(0);
 		height = 1;
 		for (NodoVP<T> n : nodesList) {
-			if (!n.getParent().equals(null)) {
+			if (n.getParent() != null) {
 				n.setLevel(n.getParent().getLevel() + 1);
 			}
 		}
@@ -75,17 +94,23 @@ public class AlberoVP<T> {
 		}
 
 		return maxLevel;
-		// return Collections.max(nodesList, (s1,s2)->(s1.getLevel()-s2.getLevel());
-		// TODO: vedere se funziona
 	}
 
 	public void setNodeInfo(NodoVP<T> n, T info) {
 		n.setInfo(info);
 	}
 
+	public void addNodeChild(NodoVP<T> parent, NodoVP<T> child) {
+		parent.addChild(child);
+		child.setParent(parent);
+		nodesList.add(child);
+		parentList.add(parent);
+	}
+
 	// visita in ampiezza
 	public ArrayList<NodoVP<T>> visitaBF() {
 		ArrayList<NodoVP<T>> listaVisitati = new ArrayList<NodoVP<T>>();
+		listaVisitati.add(root);
 		for (NodoVP<T> nodoVP : nodesList) {
 			for (NodoVP<T> n : nodoVP.getChildList()) {
 				listaVisitati.add(n);
@@ -96,16 +121,16 @@ public class AlberoVP<T> {
 	}
 
 	// Visita in Profondità
-	public ArrayList<NodoVP<T>> visitDFS() {
+	public ArrayList<NodoVP<T>> visitaDF() {
 		ArrayList<NodoVP<T>> visited = new ArrayList<>();
-		DFS(root, visited);
+		DF(root, visited);
 		return visited;
 	}
 
-	private void DFS(NodoVP<T> n, ArrayList<NodoVP<T>> visited) {
+	private void DF(NodoVP<T> n, ArrayList<NodoVP<T>> visited) {
 		visited.add(n);
 		for (NodoVP<T> child : n.getChildList()) {
-			DFS(n, visited);
+			DF(child, visited);
 		}
 	}
 
@@ -119,14 +144,13 @@ public class AlberoVP<T> {
 	private String toStringHelper(NodoVP<T> n) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(n.getInfo());
-		
+
 		ArrayList<NodoVP<T>> figli = n.getChildList();
 		if (figli.isEmpty()) {
 			sb.append("[ ]");
 			return sb.toString();
 		}
-		
-		
+
 		sb.append("[");
 		for (int i = 0; i < figli.size(); i++) {
 			sb.append(toStringHelper(figli.get(i)));
