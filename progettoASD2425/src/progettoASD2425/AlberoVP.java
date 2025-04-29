@@ -95,8 +95,20 @@ public class AlberoVP<T>{
 		return listaVisitati;
 		
 	}
-		
+
+	//Visita in Profondità
+	public ArrayList<NodoVP<T>> visitDFS(){
+		ArrayList<NodoVP<T>> visited = new ArrayList<>();
+		DFS(root, visited);
+		return visited;
+	}
 	
+	private void DFS(NodoVP<T> n, ArrayList<NodoVP<T>> visited) {
+		visited.add(n);
+		for(NodoVP<T> child : n.getChildList()) {
+			DFS(n, visited);
+		}
+	}
 	
 	
 	
