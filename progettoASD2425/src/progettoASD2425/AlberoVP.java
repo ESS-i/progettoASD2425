@@ -1,3 +1,9 @@
+/*
+ * Silvio Santoriello - (silvio.santoriello@edu.unifi.it) - 7158636
+ * Edoardo Stefanacci - (edoardo.stefanacci@edu.unifi.it) - 7160537
+ * 
+*/
+
 package progettoASD2425;
 
 import java.util.ArrayList;

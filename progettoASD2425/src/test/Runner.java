@@ -1,4 +1,7 @@
-package progettoASD2425;
+package test;
+
+import progettoASD2425.AlberoVP;
+import progettoASD2425.NodoVP;
 
 public class Runner {
 	
