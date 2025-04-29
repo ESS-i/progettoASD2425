@@ -47,6 +47,16 @@ public class NodoVP<T> {
 	public void setLevel(int level) {
 		this.level = level;
 	}
+	
+	public int getLeaves() {
+		int leavesCounter=0;
+		for (NodoVP<T> nodoVP : childList) {
+			if (nodoVP.getChildList().isEmpty()) leavesCounter++;
+		}
+		return leavesCounter;
+	}
+	
+	
 
 	@Override
 	public String toString() {

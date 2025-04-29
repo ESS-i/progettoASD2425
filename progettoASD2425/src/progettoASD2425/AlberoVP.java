@@ -1,6 +1,8 @@
 package progettoASD2425;
 
+import java.lang.classfile.instruction.ReturnInstruction;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class AlberoVP<T>{
 	private ArrayList<NodoVP<T>> nodesList;
@@ -65,4 +67,25 @@ public class AlberoVP<T>{
 	public T getNodeInfo(NodoVP<T> n) {
 		return n.getInfo();
 	}
+	
+	public int getHeight() {
+		int maxLevel=0;
+		for (NodoVP<T> nodoVP : nodesList) {
+			if (nodoVP.getLevel()>maxLevel) {
+				maxLevel=nodoVP.getLevel();
+			}
+		}
+		
+		return maxLevel;
+		//return Collections.max(nodesList, (s1,s2)->(s1.getLevel()-s2.getLevel()); TODO: vedere se funziona
+	}
+	
+	public void setNodeInfo(NodoVP<T> n , T info) {
+		n.setInfo(info);
+	}
+		
+	
+	
+	
+	
 }
