@@ -7,28 +7,29 @@ public class NodoVP<T> {
 	private NodoVP<T> parent;
 	private ArrayList<NodoVP<T>> childList;
 	private int level;
-	
-	
+
 	public NodoVP(NodoVP<T> parent, T info) {
-		this.info = info; 
-		this.childList =  new ArrayList<NodoVP<T>>();
-		this.parent=parent;
+		this.info = info;
+		this.childList = new ArrayList<NodoVP<T>>();
+		this.parent = parent;
 	}
-	
+
 	public int getLevel() {
 		return level;
 	}
-	
+
 	public T getInfo() {
 		return info;
 	}
+
 	public NodoVP<T> getParent() {
 		return parent;
 	}
+
 	public ArrayList<NodoVP<T>> getChildList() {
 		return childList;
 	}
-	
+
 	public void setInfo(T info) {
 		this.info = info;
 	}
@@ -36,38 +37,30 @@ public class NodoVP<T> {
 	public void setParent(NodoVP<T> parent) {
 		this.parent = parent;
 	}
-	
+
 	public void addChild(NodoVP<T> child, NodoVP<T> parent, T info) {
-		//TODO osserva che il costruttore già accetta info come parametro, fixare.
+		// TODO osserva che il costruttore già accetta info come parametro, fixare.
 		child.setInfo(info);
 		child.setLevel(this.getLevel() + 1);
 		this.childList.add(child);
 	}
-	
+
 	public void setLevel(int level) {
 		this.level = level;
 	}
-	
+
 	public int getLeaves() {
-		int leavesCounter=0;
+		int leavesCounter = 0;
 		for (NodoVP<T> nodoVP : childList) {
-			if (nodoVP.getChildList().isEmpty()) leavesCounter++;
+			if (nodoVP.getChildList().isEmpty())
+				leavesCounter++;
 		}
 		return leavesCounter;
 	}
-	
-	
 
 	@Override
 	public String toString() {
-		//TODO: da finire stampa stringa 
-		return info+"["+"]";
+		return info.toString();
 	}
-	
-	
-	
-	
-	
-	
-	
+
 }
