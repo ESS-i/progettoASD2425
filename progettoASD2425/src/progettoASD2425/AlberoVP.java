@@ -12,7 +12,6 @@ public class AlberoVP<T> {
 	private ArrayList<NodoVP<T>> nodesList;
 	private ArrayList<NodoVP<T>> parentList;
 	private NodoVP<T> root;
-	private int height;
 
 	public AlberoVP(NodoVP<T> root) {
 		nodesList = new ArrayList<NodoVP<T>>();
@@ -31,13 +30,12 @@ public class AlberoVP<T> {
 		this.root.setParent(null);
 		nodesList.add(root);
 		parentList.add(null);
-		height = 0;
 		return root;
 	}
 
 	public NodoVP<T> setRootNotEmpty(NodoVP<T> newRoot) {
 
-		// Cambio i riferimenti al padre nella vecchia radice
+		// Cambio padre e livello della vecchia radice
 		this.root.setParent(newRoot);
 		this.root.setLevel(1);
 
@@ -58,7 +56,8 @@ public class AlberoVP<T> {
 		parentList.addFirst(null);
 
 		this.root.setLevel(0);
-		height = 1;
+
+		// Aggiorno i livelli, sfruttando la definizione ricorsiva di livello
 		for (NodoVP<T> n : nodesList) {
 			if (n.getParent() != null) {
 				n.setLevel(n.getParent().getLevel() + 1);
@@ -79,8 +78,27 @@ public class AlberoVP<T> {
 		return n.getParent();
 	}
 
-	public int getNodesSize() {
+	public int getNodesListSize() {
 		return nodesList.size();
+	}
+
+	public int getNodeLevel(NodoVP<T> n) {
+		return n.getLevel();
+	}
+
+	public void addNodeChild(NodoVP<T> parent, NodoVP<T> child) {
+		/*
+		 * Nota: In realtà, secondo le specifiche tale metodo dovrebbe prevedere anche
+		 * info come parametro e restituire NodoVP<T> . Per farlo basterebbe usare il
+		 * metodo addChild sovraccaricato nella classe NodoVP, che accetta anche info
+		 * come parametro.
+		 * 
+		 */
+		parent.addChild(child);
+		child.setParent(parent);
+		nodesList.add(child);
+		parentList.add(parent);
+
 	}
 
 	public int getChildListSize(NodoVP<T> n) {
@@ -102,18 +120,15 @@ public class AlberoVP<T> {
 		return maxLevel;
 	}
 
+	public int getNodeLeavesSize(NodoVP<T> n) {
+		return n.getLeavesSize();
+	}
+
 	public void setNodeInfo(NodoVP<T> n, T info) {
 		n.setInfo(info);
 	}
 
-	public void addNodeChild(NodoVP<T> parent, NodoVP<T> child) {
-		parent.addChild(child);
-		child.setParent(parent);
-		nodesList.add(child);
-		parentList.add(parent);
-	}
-
-	// visita in ampiezza
+	// Visita in ampiezza, gestita iterativamente
 	public ArrayList<NodoVP<T>> visitaBF() {
 		ArrayList<NodoVP<T>> listaVisitati = new ArrayList<NodoVP<T>>();
 		listaVisitati.add(root);
@@ -126,7 +141,7 @@ public class AlberoVP<T> {
 
 	}
 
-	// Visita in Profondità
+	// Visita in profondità, gestita ricorsivamente
 	public ArrayList<NodoVP<T>> visitaDF() {
 		ArrayList<NodoVP<T>> visited = new ArrayList<>();
 		DF(root, visited);
@@ -153,7 +168,7 @@ public class AlberoVP<T> {
 
 		ArrayList<NodoVP<T>> figli = n.getChildList();
 		if (figli.isEmpty()) {
-			sb.append("[ ]");
+			sb.append("[]");
 			return sb.toString();
 		}
 
