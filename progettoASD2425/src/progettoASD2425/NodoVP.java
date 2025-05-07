@@ -47,25 +47,31 @@ public class NodoVP<T> {
 		this.parent = parent;
 	}
 
+	public void addChild(NodoVP<T> child) {
+		child.setLevel(this.getLevel() + 1);
+		this.childList.add(child);
+
+	}
+
+	@Deprecated
 	public void addChild(NodoVP<T> child, T info) {
-		// TODO osserva che il costruttore già accetta info come parametro, fixare.
+		// Nota: tale metodo, in overload con quello sopra
+		// permette di sovrascrivere l'informazione nel nodo figlio, ma nella nostra
+		// implementazione
+		// non lo usiamo mai
 		child.setInfo(info);
 		child.setLevel(this.getLevel() + 1);
 		this.childList.add(child);
-	}
-
-	public void addChild(NodoVP<T> child) {
-		child.setInfo(child.getInfo());
-		child.setLevel(this.getLevel() + 1);
-		this.childList.add(child);
-
 	}
 
 	public void setLevel(int level) {
 		this.level = level;
 	}
 
-	public int getLeaves() {
+	public int getLeavesSize() {
+		// abbiamo inteso "resitutire il numero delle foglie di un nodo" come
+		// "restituire il numero di figli che a loro volta non hanno figli"
+
 		int leavesCounter = 0;
 		for (NodoVP<T> nodoVP : childList) {
 			if (nodoVP.getChildList().isEmpty())
